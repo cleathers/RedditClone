@@ -45,16 +45,25 @@ class SubsController < ApplicationController
   def update
     get_sub
 
-    #this code will update existing links only
-    @sub.links.each_with_index do |link, idx|
-      link.update_attributes!(link_params[idx])
-    end
+    # Goes through each array in link_params
+    # Checks if current_link is a link. If it is, updates
+    # checks its subs array to see if it's in the current sub. Updates if it is
+    # else, it assigns a user_id to the hash and builds a new link. 
+    
+    # Be wary my N + 1 query
 
     link_params.each do |link|
-      new_link = Link.find_or_create_by_url_and_title_and_body_and_user_id(link[:url],
-                     link[:title], link[:body], current_user.id)
-      @sub.links << new_link unless @sub.links.include?(new_link)
+      current = Link.find_by_url(link[:url])
+      current.nil?
+      
+      if !current.nil? && current.subs.where( :id == @sub.id)
+        current.update_attributes(link)
+      else
+        link['user_id'] = current_user.id
+        @sub.links.new(link)
+      end
     end
+    
 
     if @sub.update_attributes(sub_params)
       redirect_to sub_url(@sub)

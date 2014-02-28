@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140227234156) do
+ActiveRecord::Schema.define(version: 20140228031412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140227234156) do
   end
 
   add_index "link_subs", ["link_id"], name: "index_link_subs_on_link_id", using: :btree
+  add_index "link_subs", ["sub_id", "link_id"], name: "index_link_subs_on_sub_id_and_link_id", unique: true, using: :btree
   add_index "link_subs", ["sub_id"], name: "index_link_subs_on_sub_id", using: :btree
 
   create_table "links", force: true do |t|

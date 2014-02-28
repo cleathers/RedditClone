@@ -6,7 +6,7 @@
 development:
   adapter: postgresql
   database: reddit_dev_db
-  username: appacademy
+  username: charlieleathers
 
 
 
@@ -16,7 +16,7 @@ development:
 test:
   adapter: postgresql
   database: reddit_test_db
-  username: appacademy
+  username: charlieleathers
 
 
 # production:
